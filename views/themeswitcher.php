@@ -1,14 +1,18 @@
 <?php defined('APPLICATION') or die; ?>
 <style>
 .ThemeSwitcher {
-  position: absolut;
-  top:10px;
-  right:-50px;
-  width:10em;
+  color:#eee;
+  position: fixed;
+  bottom:0;
+  right:0;
+  background:rgba(222,222,222,0.8);
+  padding:5px
+}
+.ThemeSwitcher input {
+  width:100%;
 }
 </style>
 <aside class="ThemeSwitcher">
-  <h2><?= t('Choose a theme') ?></h2>
   <div class="FormWrapper">
   <?php
     echo $sender->Form->open(
@@ -18,14 +22,14 @@
         ]
     ),
       $sender->Form->errors(),
+      $sender->Form->label('Choose a theme', 'UserTheme'),
       $sender->Form->dropDown(
           'UserTheme',
           $sender->data('ThemeSwitcherStyles'),
           [
             'IncludeNull' => true,
-            'ValueField' => 'Name',
-            'TextField' => 'Name'
-
+            'ValueField' => 'basename',
+            'TextField' => 'basename'
           ]
       ),
       $sender->Form->button('Go'),

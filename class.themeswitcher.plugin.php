@@ -46,10 +46,15 @@ class ThemeSwitcherPlugin extends Gdn_Plugin {
      * @return void.
      */
     public function base_afterBody_handler($sender) {
-$this->getThemeStyles(true);
-        $sender->Form = new Gdn_Form();
-
+        // Don't show anything if current theme has no sub themes.
         $styles = $this->getThemeStyles();
+        if (!$styles) {
+            return;
+        }
+
+        $sender->Form = new Gdn_Form();
+        $sender->Form->addHidden('Target', $sender->SelfUrl, true);
+
         $sender->setData(
             'ThemeSwitcherStyles',
             array_combine(array_keys($styles), array_keys($styles))
@@ -59,8 +64,6 @@ $this->getThemeStyles(true);
         if ($style) {
             $sender->Form->setFormValue('UserTheme', $style);
         }
-
-        $sender->Form->addHidden('Target', $sender->SelfUrl, true);
 
         include $this->getView('themeswitcher.php');
     }
